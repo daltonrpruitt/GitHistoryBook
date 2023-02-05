@@ -46,12 +46,13 @@ def main():
             break
         curr_commit = curr_commit.parents[0]
     
-    messages_str = "="*25+"  Commit Messages   " + "="*25 + "\n"
-    for c in path_to_current_end[::-1]:
-        messages_str +=  c.message + "\n"
-        messages_str +=  "-"*10 + "\n"
-    messages_str += "="*70 + "\n"
-    my_logger.debug("%s",messages_str)
+    if my_logger.isEnabledFor(logging.DEBUG):
+        messages_str = "="*25+"  Commit Messages   " + "="*25 + "\n"
+        for c in path_to_current_end[::-1]:
+            messages_str +=  c.message + "\n"
+            messages_str +=  "-"*10 + "\n"
+        messages_str += "="*70 + "\n"
+        my_logger.debug("%s",messages_str)
 
 
 if __name__=="__main__":
