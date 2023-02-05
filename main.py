@@ -1,7 +1,7 @@
 from github import Github
 
 from os.path import expanduser
-import sys
+import sys, logging
 
 def get_token():
     home = expanduser("~")
@@ -20,11 +20,18 @@ def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 
 
 def main():
+    my_logger = logging.getLogger(__name__)
+    hdlr = logging.StreamHandler()
+    fhdlr = logging.FileHandler("myapp.log")
+    my_logger.addHandler(hdlr)
+    my_logger.addHandler(fhdlr)
+    my_logger.setLevel(logging.DEBUG)
     assert(len(sys.argv) == 2)
+    
     token = get_token()
     gh = Github(token)
     repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
-    print("Branches of ", repo.name)
+    
     main_branch = None
     for b in repo.get_branches():
         if b.name == "main" or b.name == "master":
@@ -38,11 +45,13 @@ def main():
         if len(curr_commit.parents) == 0:
             break
         curr_commit = curr_commit.parents[0]
-    print("="*70 + "\nMessages:")
+    
+    messages_str = "="*25+"  Commit Messages   " + "="*25 + "\n"
     for c in path_to_current_end[::-1]:
-        print(c.message)
-        print("-"*10)
-    print("="*70)
+        messages_str +=  c.message + "\n"
+        messages_str +=  "-"*10 + "\n"
+    messages_str += "="*70 + "\n"
+    my_logger.debug("%s",messages_str)
 
 
 if __name__=="__main__":
