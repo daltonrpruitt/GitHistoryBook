@@ -1,6 +1,7 @@
 from github import Github
 
 from os.path import expanduser
+import sys
 
 def get_token():
     home = expanduser("~")
@@ -16,19 +17,27 @@ def get_token():
     
 def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 
+def get_repo_by_name(gh, repo_name):
+    repos = get_repos(gh)
+    for r in repos:
+        if repo_name in r.name:
+            return r
+    raise Exception("Could not find repo named '"+repo_name+"'!")
+
 def interact_with_github(token):
     
     # using an access token
-    gh = Github(token)
 
     # Then play with your Github objects:
     repos = get_repos(gh)
     [print(i,r.name) for (i,r) in enumerate(repos)]
 
 def main():
+    assert(len(sys.argv) == 2)
     token = get_token()
-    interact_with_github(token)
-    
+    gh = Github(token)
+    repo = get_repo_by_name(gh, sys.argv[1])
+    print(repo)
 
 
 if __name__=="__main__":
