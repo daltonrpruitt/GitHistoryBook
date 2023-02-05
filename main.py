@@ -24,9 +24,20 @@ def main():
     token = get_token()
     gh = Github(token)
     repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
-    # for b in repo:
-        # print(b)
-    print(repo)
+    print("Branches of ", repo.name)
+    main_branch = None
+    for b in repo.get_branches():
+        if b.name == "main" or b.name == "master":
+            main_branch = b
+    if main_branch is None:
+        raise Exception("Could not find a 'main' or 'master' branch!")
+    curr_commit = main_branch.commit.commit
+    while True:
+        print(curr_commit.message)
+        if len(curr_commit.parents) == 0:
+            break
+        curr_commit = curr_commit.parents[0]
+    
 
 
 if __name__=="__main__":
