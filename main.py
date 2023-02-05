@@ -15,7 +15,9 @@ def get_token():
         print("Cannot find token file! :", e)
         raise e
     
+
 def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
+
 
 def get_repo_by_name(gh, repo_name):
     repos = get_repos(gh)
@@ -24,13 +26,6 @@ def get_repo_by_name(gh, repo_name):
             return r
     raise Exception("Could not find repo named '"+repo_name+"'!")
 
-def interact_with_github(token):
-    
-    # using an access token
-
-    # Then play with your Github objects:
-    repos = get_repos(gh)
-    [print(i,r.name) for (i,r) in enumerate(repos)]
 
 def main():
     assert(len(sys.argv) == 2)
