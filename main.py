@@ -19,19 +19,13 @@ def get_token():
 def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 
 
-def get_repo_by_name(gh, repo_name):
-    repos = get_repos(gh)
-    for r in repos:
-        if repo_name in r.name:
-            return r
-    raise Exception("Could not find repo named '"+repo_name+"'!")
-
-
 def main():
     assert(len(sys.argv) == 2)
     token = get_token()
     gh = Github(token)
-    repo = get_repo_by_name(gh, sys.argv[1])
+    repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
+    # for b in repo:
+        # print(b)
     print(repo)
 
 
