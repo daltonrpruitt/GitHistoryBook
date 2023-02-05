@@ -1,2 +1,2 @@
 # GitHistoryBook
-Tool to convert the output of `git history` into a nicely formatted booklike format.
+Tool to convert the output of `git log` into a nicely formatted book-like format.
