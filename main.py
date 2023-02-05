@@ -31,13 +31,18 @@ def main():
             main_branch = b
     if main_branch is None:
         raise Exception("Could not find a 'main' or 'master' branch!")
+    path_to_current_end = []
     curr_commit = main_branch.commit.commit
     while True:
-        print(curr_commit.message)
+        path_to_current_end.append(curr_commit)
         if len(curr_commit.parents) == 0:
             break
         curr_commit = curr_commit.parents[0]
-    
+    print("="*70 + "\nMessages:")
+    for c in path_to_current_end[::-1]:
+        print(c.message)
+        print("-"*10)
+    print("="*70)
 
 
 if __name__=="__main__":
