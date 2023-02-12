@@ -46,6 +46,7 @@ def get_chronological_commits(repo):
         if len(curr_commit.parents) == 0:
             break
         curr_commit = curr_commit.parents[0]
+    path_to_current_end.reverse()
 
     if logger.isEnabledFor(logging.DEBUG):
         messages_str = "=" * 25 + "  Commit Messages   " + "=" * 25 + "\n"
