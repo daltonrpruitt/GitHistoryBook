@@ -3,6 +3,17 @@ from github import Github
 from os.path import expanduser
 import sys, logging
 
+def setup_logger():
+    _logger = logging.getLogger(__name__)
+    hdlr = logging.StreamHandler()
+    fhdlr = logging.FileHandler("myapp.log")
+    _logger.addHandler(hdlr)
+    _logger.addHandler(fhdlr)
+    _logger.setLevel(logging.DEBUG)
+    return _logger
+
+
+
 def get_token():
     home = expanduser("~")
 
@@ -20,13 +31,9 @@ def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 
 
 def main():
-    my_logger = logging.getLogger(__name__)
-    hdlr = logging.StreamHandler()
-    fhdlr = logging.FileHandler("myapp.log")
-    my_logger.addHandler(hdlr)
-    my_logger.addHandler(fhdlr)
-    my_logger.setLevel(logging.DEBUG)
     assert(len(sys.argv) == 2)
+    
+    logger = setup_logger()
     
     token = get_token()
     gh = Github(token)
@@ -46,13 +53,13 @@ def main():
             break
         curr_commit = curr_commit.parents[0]
     
-    if my_logger.isEnabledFor(logging.DEBUG):
+    if logger.isEnabledFor(logging.DEBUG):
         messages_str = "="*25+"  Commit Messages   " + "="*25 + "\n"
         for c in path_to_current_end[::-1]:
             messages_str +=  c.message + "\n"
             messages_str +=  "-"*10 + "\n"
         messages_str += "="*70 + "\n"
-        my_logger.debug("%s",messages_str)
+        logger.debug("%s",messages_str)
 
 
 if __name__=="__main__":
