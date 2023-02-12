@@ -25,3 +25,5 @@
 - [ ] Add profile avatars as icons on commit message line
   - see [this SO post](https://stackoverflow.com/questions/30229231/python-save-image-from-url) for inspiration on how to download
   - I assume I'd need to cache based on url to make sure I don't download same images repeatedly.
+- [ ] Create files in subdirectory hidden from git
+  - don't pollute the outer directory?
