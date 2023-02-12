@@ -26,16 +26,7 @@ def get_token():
 
 def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 
-
-def main():
-    assert(len(sys.argv) == 2)
-    
-    setup_logger()
-    
-    token = get_token()
-    gh = Github(token)
-    repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
-    
+def get_chronological_commits(repo):
     main_branch = None
     for b in repo.get_branches():
         if b.name == "main" or b.name == "master":
@@ -57,7 +48,21 @@ def main():
             messages_str +=  "-"*10 + "\n"
         messages_str += "="*70 + "\n"
         logger.debug("%s",messages_str)
+    
+    return path_to_current_end
 
+
+def main():
+    assert(len(sys.argv) == 2)
+    
+    setup_logger()
+    
+    token = get_token()
+    gh = Github(token)
+    repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
+    
+    commits = get_chronological_commits(repo)
+    
 
 if __name__=="__main__":
     main()
