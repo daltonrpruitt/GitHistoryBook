@@ -3,7 +3,8 @@ from github import Github
 from os.path import expanduser
 import sys, logging
 
-logger = None # not passing the logger around
+logger = None  # not passing the logger around
+
 
 def setup_logger():
     global logger
@@ -14,17 +15,20 @@ def setup_logger():
     logger.addHandler(fhdlr)
     logger.setLevel(logging.DEBUG)
 
+
 def get_token():
     home = expanduser("~")
     try:
-        token = open(home+"/.github/my_gh_token.txt").read()
+        token = open(home + "/.github/my_gh_token.txt").read()
         return token
     except FileNotFoundError as e:
         print("Cannot find token file! :", e)
         raise e
-    
 
-def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
+
+def get_repos(gh):
+    return [repo for repo in gh.get_user().get_repos()]
+
 
 def get_chronological_commits(repo):
     main_branch = None
@@ -40,29 +44,29 @@ def get_chronological_commits(repo):
         if len(curr_commit.parents) == 0:
             break
         curr_commit = curr_commit.parents[0]
-    
+
     if logger.isEnabledFor(logging.DEBUG):
-        messages_str = "="*25+"  Commit Messages   " + "="*25 + "\n"
+        messages_str = "=" * 25 + "  Commit Messages   " + "=" * 25 + "\n"
         for c in path_to_current_end[::-1]:
-            messages_str +=  c.message + "\n"
-            messages_str +=  "-"*10 + "\n"
-        messages_str += "="*70 + "\n"
-        logger.debug("%s",messages_str)
-    
+            messages_str += c.message + "\n"
+            messages_str += "-" * 10 + "\n"
+        messages_str += "=" * 70 + "\n"
+        logger.debug("%s", messages_str)
+
     return path_to_current_end
 
 
 def main():
-    assert(len(sys.argv) == 2)
-    
+    assert len(sys.argv) == 2
+
     setup_logger()
-    
+
     token = get_token()
     gh = Github(token)
-    repo = gh.get_repo(gh.get_user().login+"/"+sys.argv[1])
-    
-    commits = get_chronological_commits(repo)
-    
+    repo = gh.get_repo(gh.get_user().login + "/" + sys.argv[1])
 
-if __name__=="__main__":
+    commits = get_chronological_commits(repo)
+
+
+if __name__ == "__main__":
     main()
