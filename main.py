@@ -16,9 +16,6 @@ def setup_logger():
 
 def get_token():
     home = expanduser("~")
-
-    # First create a Github instance:
-
     try:
         token = open(home+"/.github/my_gh_token.txt").read()
         return token
