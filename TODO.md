@@ -12,9 +12,10 @@
     - branch name is section title - may not be relevant anymore?
       - commit first line is subheading?? 
       - commit remaining message is paragraph
-- [ ] Put commit message contents into latex
-- [ ] Render the output latex into PDF
-- [ ] open PDF (in default app)
+  - This seems very irrelevant given the fact I am only doing one branch now...
+- [x] Put commit message contents into latex
+- [x] Render the output latex into PDF
+- [x] open PDF (in default app)
 
 
 # Nice-to-haves
