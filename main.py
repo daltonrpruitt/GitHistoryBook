@@ -109,8 +109,9 @@ def main():
     commits = get_chronological_commits(repo)
     
     latex_string = commits_to_latex_str(commits)
-    latex_file = open(f"{repo.name}.tex", "w").write(latex_string)
+    open(f"{repo.name}.tex", "w").write(latex_string)
     os.system(f"pdflatex.exe {repo.name}.tex")
+    os.startfile(f"{repo.name}.pdf")
 
 if __name__ == "__main__":
     main()
