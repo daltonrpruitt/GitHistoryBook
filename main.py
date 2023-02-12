@@ -3,16 +3,16 @@ from github import Github
 from os.path import expanduser
 import sys, logging
 
+logger = None # not passing the logger around
+
 def setup_logger():
-    _logger = logging.getLogger(__name__)
+    global logger
+    logger = logging.getLogger(__name__)
     hdlr = logging.StreamHandler()
     fhdlr = logging.FileHandler("myapp.log")
-    _logger.addHandler(hdlr)
-    _logger.addHandler(fhdlr)
-    _logger.setLevel(logging.DEBUG)
-    return _logger
-
-
+    logger.addHandler(hdlr)
+    logger.addHandler(fhdlr)
+    logger.setLevel(logging.DEBUG)
 
 def get_token():
     home = expanduser("~")
@@ -33,7 +33,7 @@ def get_repos(gh): return [repo for repo in gh.get_user().get_repos()]
 def main():
     assert(len(sys.argv) == 2)
     
-    logger = setup_logger()
+    setup_logger()
     
     token = get_token()
     gh = Github(token)
