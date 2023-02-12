@@ -22,3 +22,6 @@
 - [ ] Logging levels set dynamically via files, see [docs](https://docs.python.org/3/library/logging.config.html)
 - [ ] Multi-branch output
   - ideally, if a commit came from a different branch originally, I would like to see it as a subsection of the main branch (or a chapter if the main branch is the entire "book"). However, this may not be possible given that branches are typically deleted after merging; this would lose such information. 
+- [ ] Add profile avatars as icons on commit message line
+  - see [this SO post](https://stackoverflow.com/questions/30229231/python-save-image-from-url) for inspiration on how to download
+  - I assume I'd need to cache based on url to make sure I don't download same images repeatedly.
